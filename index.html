@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Invitation</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #072f23;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Georgia, serif;
+}
+.snow-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;       /* 🔽 UNDER card */
+  pointer-events: none;
+}
+
+.snow {
+  position: fixed;
+  top: -5px;
+  color: white;
+  font-size: 15px;
+  animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+.card {
+  position: relative;
+  z-index: 2;      /* 🔼 ABOVE snow */
+  width: 90%;
+  max-width: 380px;
+  height: 520px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.2s ease;
+}
+
+.card.flipped .inner {
+    transform: rotateY(180deg);
+}
+
+/* PAGES */
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+
+/* COVER PAGE (BACKGROUND IMAGE) */
+.cover {
+    background-image: url("coverpage.png");
+    background-size: cover;
+    background-position: center;
+}
+
+/* INSIDE PAGE */
+.inside {
+    background: linear-gradient(#fffdf5, #f1efe8);
+    transform: rotateY(180deg);
+    padding: 24px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.page.inside {
+    background-image: url('invitation.png'); /* Replace with your image path */
+    background-size: cover;       /* Makes sure the image covers the entire page */
+    background-position: center;  /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    color: #fbf9f9;                 /* Adjust text color for visibility */
+    padding: 20px;                /* Optional: add some padding */
+}
+
+
+/* INSIDE ANIMATION */
+.inside-content {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.9s ease;
+}
+
+.card.flipped .inside-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.inside h1 {
+    color: #b22222;
+    margin-bottom: 10px;
+}
+
+.inside h2 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+.inside h3{
+    font-size: 15px;
+    line-height: 1.0;
+    color: #080000;
+}
+.inside p {
+    font-size: 15px;
+    line-height: 1.0;
+    color: #080000;
+}
+
+.footer {
+    margin-top: 12px;
+    font-style: italic;
+    color: #0b3d2e;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" onclick="flipCard()">
+    <div class="inner">
+        <div class="snow-container"></div>
+
+        <!-- COVER PAGE -->
+        <div class="page cover"></div>
+      
+
+        <!-- INVITATION PAGE -->
+        <div class="page inside">
+            <div class="inside-content">
+
+                <h1><p style="font-size: 23px; color: #a70606;" > Save Your Pocket Money!</p></h1>
+
+                <p>
+                    <h3><strong>The English Literary Association</strong><br>
+                    invites <p style="color: #faf6f6;"> All Louvrerites</p>to join<br>the festive fun fair,</h3>
+                </p>
+
+                <p>
+                   <b>
+                    <h1><strong>“Bla Bla Blah”</strong></h1><br>
+                    <strong>On Friday, 02nd of January 2026</strong><br>
+                    From <strong> 11.30 a.m. onwards</strong><br>
+                    at College Basketball Court
+                </p>
+                <p>Join the fun<br> With <br>Food, games , and a grand raffle draw to
+                     win fabulous prizes
+
+                </p>
+                <div class="card">
+         <!-- your card content -->
+        </div>
+
+               
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function flipCard() {
+    document.querySelector('.card').classList.toggle('flipped');
+}
+// SNOW GENERATOR (slower)
+const snowEmojis = ["🍰", "🍩", "🍫", "🎈", "🎁", "🍪", "⚽", "🏀"];
+snowEmojis.forEach(emoji => {
+    for (let i = 10; i <20; i++) {
+        let snow = document.createElement("div");
+        snow.className = "snow";
+        snow.innerHTML = emoji;
+        snow.style.left = Math.random() * 100 + "vw";
+        // Slower and more varied fall speed (5s to 12s)
+        snow.style.animationDuration = (5 + Math.random() * 7) + "s";
+        snow.style.opacity = 0.3 + Math.random() * 1; // Keep them visible but varied
+        snow.style.fontSize = (12 + Math.random() * 20) + "px"; // Slight size variation
+        document.body.appendChild(snow);
+    }
+});
+
+</script>
+
+</body>
+</html>
